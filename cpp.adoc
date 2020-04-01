@@ -1,0 +1,29 @@
+= C++ =
+kyle <kylechenjie@gmail.com>
+:toc: left
+:icons: font
+:source-highlighter: highlightjs
+:numbered:
+:toclevels: 5
+
+== 命名空间 ==
+
+[source, cpp]
+------------
+using namespace std; // <1>
+------------
+<1> 标准命名空间
+
+== 输出 ==
+
+=== 标准输出  ===
+
+[source, cpp]
+--------------------------------------------------------------------------------
+cout << "hello";
+//换行
+cout << "hello\n"; // <1>
+cout << "Hello World!" << endl; <2>
+--------------------------------------------------------------------------------
+<1> 换行
+<2> 也可以使用 `endl` 换行

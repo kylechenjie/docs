@@ -1,0 +1,125 @@
+= Auto Build System =
+kyle <kylechenjie@163.com>
+:toc: left
+:icons: font
+:source-highlighter: highlightjs
+:numbered:
+:website: http://www.pass0word1.com/
+
+.文档说明
+********************************************************************************
+该文档用于学习GNU Auto Build System。
+********************************************************************************
+
+
+== amhello ==
+
+
+=== configure.ac ===
+
+.configure.ac
+[source,text]
+--------------------------------------------------------------------------------
+AC_INIT([amhello], [1.0], [bug-automake@gnu.org])
+AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+AC_PROG_CC
+AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_FILES([
+ Makefile
+ src/Makefile
+])
+AC_OUTPUT
+--------------------------------------------------------------------------------
+
+. `AC_` 开头的是Autoconf Macros。
+. `AM_` 开头的是Automake Macros。
+. `AC_INIT` 用于初始化Autoconf。
+. `AC_INIT_AUTOMAKE` 用于初始化Automake，参数实际上就是automake的参数。
+. `AC_PROG_CC` 会告诉configure脚本搜索C compiler并定义CC变量。
+. `AC_CONFIG_HEADERS([config.h])` 告诉configure脚本创建config.h头文件。
+. `AC_CONFIG_FILES` 声明了一组用于configure脚本根据 `*.in` 模板生成的文件，主要是根据
+`*.am` 文件生成 `*.in` 文件，并最终生成Makefile文件。
+. `AC_OUTPUT` 根据AC_CONFIG_HEADERS和AC_CONFIG_FILES的配置，最终输出结果文件。
+
+[NOTE]
+================================================================================
+a
+================================================================================
+
+=== Makefile.am ===
+
+格式： where_ [big red yellow-background]*PRIMARY* = targets ...
+
+targets should be built as...
+
+. _PROGRAMS 生成可执行文件
+. _LIBRARIES 生成库文件
+. _LTLIBRARIES (Libtool libraries)
+. _HEADERS 生成头文件
+. _SCRIPTS
+. _DATA
+
+
+.src/Makefile.am
+[source,text]
+--------------------------------------------------------------------------------
+bin_PROGRAMS = hello
+hello_SOURCES = main.c
+--------------------------------------------------------------------------------
+
+.Makefile.am
+[source,text]
+--------------------------------------------------------------------------------
+SUBDIRS = src
+dist_doc_DATA = README
+--------------------------------------------------------------------------------
+
+== 动态链接库 ==
+
+=== 开发自己库 ===
+
+确保系统安装了libtool
+[source,shell]
+----
+sudo apt-get install libtool
+brew install libtool
+----
+
+=== 使用外部库 ===
+
+== 三方库依赖添加 ==
+
+主要使用 `PKG_CHECK_MODULES` 这个Macro。
+
+====
+PKG_CHECK_MODULES(prefix, list-of-modules, action-if-found, action-if-not-found)
+====
+
+例如，如果prefix设置成 `FOO` ，则程序会提供2个变量：
+
+* FOO_CFLAGS
+* FOO_LIBS
+
+== 开发环境 ==
+=== VS Code ===
+
+需要安装的插件
+
+* autoconf: Syntax support for the Autoconf M4 and Automake files (Autotools)
+
+需要检测的环境（linux）：
+
+----
+sudo apt-get install g++
+sudo apt-get install clang
+----
+
+需要检测的环境（macos）：
+
+----
+xcodebuild -find make
+xcodebuild -find gcc
+xcodebuild -find g++
+xcodebuild -find clang
+xcodebuild -find clang++
+----

@@ -1,0 +1,116 @@
+= MySQL =
+kyle <kylechenjie@gmail.com>
+:toc: left
+:icons: font
+:source-highlighter: highlightjs
+:numbered:
+:toclevels: 4
+
+[NOTE]
+======
+a
+======
+
+== 配置 ==
+
+=== 表名不区分大小写 ===
+修改my.cnf
+[source,text]
+--------------------------------------------------------------------------------
+lower_case_table_names=1
+--------------------------------------------------------------------------------
+
+== 安装 ==
+
+=== centos7 ===
+
+先去官方获取最新的yum仓库文件：
+https://dev.mysql.com/downloads/repo/yum/
+
+注意需要根据实际版本的情况启动对应的仓库
+[source,text]
+--------------------------------------------------------------------------------
+yum install mysql-community-server
+systemctl start  mysqld.service
+systemctl status mysqld.service
+--------------------------------------------------------------------------------
+
+查看初始化root密码：
+[source,text]
+--------------------------------------------------------------------------------
+grep "password" /var/log/mysqld.log
+mysql -uroot -p
+--------------------------------------------------------------------------------
+
+修改密码：
+[source,text]
+--------------------------------------------------------------------------------
+ALTER USER 'root'@'localhost' IDENTIFIED BY '****************';
+--------------------------------------------------------------------------------
+
+授权：
+[source,text]
+--------------------------------------------------------------------------------
+mysql>GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+mysql>FLUSH PRIVILEGES;
+--------------------------------------------------------------------------------
+
+设置自动启动：
+[source,text]
+--------------------------------------------------------------------------------
+systemctl enable mysqld
+systemctl daemon-reload
+--------------------------------------------------------------------------------
+
+== 时间 ==
+
+=== 格式 ===
+
+[NOTE]
+================================================================================
+W3C定义了一些时间的标准字符串格式：
+https://www.w3.org/TR/NOTE-datetime
+YYYY-MM-DDThh:mm:ss.sTZD (eg 1997-07-16T19:20:30.45+01:00)
+================================================================================
+
+== 时区 ==
+
+=== 往上找到的一些针对时区的解释 ===
+
+名为 CST 的时区是一个很混乱的时区，在与 MySQL 协商会话时区时，Java 会误以为是 CST -0500 ，而非 CST +0800 。
+
+名为 CST 的时区是一个很混乱的时区，有四种含义：
+
+. 美国中部时间 Central Standard Time (USA) UTC-06:00
+. 澳大利亚中部时间 Central Standard Time (Australia) UTC+09:30
+. 中国标准时 China Standard Time UTC+08:00
+. 古巴标准时 Cuba Standard Time UTC-04:00
+
+具体可以参考这个网址：
+
+https://www.cnblogs.com/bgo-tech/p/6929701.html
+
+=== system time zone ===
+
+当启动MySQL的时候，MySQL会尝试检测当前系统的时区，并且自动设置到系统变量 `system_time_zone`
+上，此后不能再对该值进行修改。
+
+可以在MySQL启动前，通过设置TZ环境变量来设置system time zone。
+[source,text]
+--------------------------------------------------------------------------------
+export TZ=?
+mysqld_safe --timezone
+--------------------------------------------------------------------------------
+
+=== server current time zone ===
+. 命令参数：--default-time-zone
+. option文件：default-time-zone='timezone'
+. SQL：SET GLOBAL time_zone = timezone;
+. 针对会话的time zone：SET time_zone = timezone;
+
+=== 查询全局和会话使用的时区 ===
+
+[source, text]
+--------------------------------------------------------------------------------
+SELECT @@GLOBAL.time_zone, @@SESSION.time_zone;
+--------------------------------------------------------------------------------

@@ -1,0 +1,14 @@
+= 微信公众号开发 =
+
+== 微信开发者工具 ==
+
+https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd73b04f0dbea5944&redirect_uri=http://3940af38.ngrok.io/wxui/wx/usercenter&response_type=code&scope=snsapi_base&state=STATE
+
+[source,text]
+--------------------------------------------------------------------------------
+appid:wxd73b04f0dbea5944
+redirect_uri:http://3940af38.ngrok.io/wxui/wx/usercenter
+response_type:code
+scope:snsapi_base
+state:STATE
+--------------------------------------------------------------------------------

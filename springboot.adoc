@@ -1,0 +1,29 @@
+= Spring Boot =
+
+
+== 运行 ==
+
+[source,shell]
+----
+java org.springframework.boot.loader.JarLauncher
+----
+
+解压后的文件重新打包
+
+[source,shell]
+----
+jar -cvf0m xxx.jar META-INF/MANIFEST.MF .
+----
+
+[source,shell]
+----
+nohup java -Xms512m -Xmx512m org.springframework.boot.loader.Jarlauncher --spring.profiles.active=test 2>&1 > wiki.log &
+----
+
+
+[qanda]
+如何给java进程指定一个名称？::
+
+================================================================================
+exec -a name java ...
+================================================================================

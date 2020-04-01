@@ -1,0 +1,17 @@
+= Spring MVC =
+
+== Cookie ==
+
+关闭SameSite=Lax
+
+[source,java]
+----
+@Bean
+public CookieSerializer httpSessionIdResolver(){
+    DefaultCookieSerializer cookieSerializer = new DefaultCookieSerializer();
+    cookieSerializer.setCookieName("token");
+    cookieSerializer.setUseHttpOnlyCookie(false);
+    cookieSerializer.setSameSite(null);
+    return cookieSerializer;
+}
+----

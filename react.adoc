@@ -1,0 +1,71 @@
+= react =
+
+== 开始 ==
+
+=== 创建工程 ===
+
+[source,shell]
+----
+npx create-react-app my-app
+cd my-app
+npm start
+----
+
+----
+npx: installed 91 in 26.344s
+
+Creating a new React app in /Users/kyle/chenjie/tmp/my-app.
+
+Installing packages. This might take a couple of minutes.
+Installing react, react-dom, and react-scripts...
+
+
+> fsevents@1.2.9 install /Users/kyle/chenjie/tmp/my-app/node_modules/chokidar/node_modules/fsevents
+> node install
+
+[fsevents] Success: "/Users/kyle/chenjie/tmp/my-app/node_modules/chokidar/node_modules/fsevents/lib/binding/Release/node-v64-darwin-x64/fse.node" is installed via remote
+
+> fsevents@1.2.9 install /Users/kyle/chenjie/tmp/my-app/node_modules/jest-haste-map/node_modules/fsevents
+> node install
+
+[fsevents] Success: "/Users/kyle/chenjie/tmp/my-app/node_modules/jest-haste-map/node_modules/fsevents/lib/binding/Release/node-v64-darwin-x64/fse.node" is installed via remote
+
+> core-js@2.6.9 postinstall /Users/kyle/chenjie/tmp/my-app/node_modules/babel-runtime/node_modules/core-js
+> node scripts/postinstall || echo "ignore"
+
+
+> core-js-pure@3.1.4 postinstall /Users/kyle/chenjie/tmp/my-app/node_modules/core-js-pure
+> node scripts/postinstall || echo "ignore"
+
++ react-scripts@3.0.1
++ react-dom@16.8.6
++ react@16.8.6
+added 1547 packages from 744 contributors and audited 902137 packages in 365.893s
+found 0 vulnerabilities
+
+
+Initialized a git repository.
+
+Success! Created my-app at /Users/kyle/chenjie/tmp/my-app
+Inside that directory, you can run several commands:
+
+  npm start
+    Starts the development server.
+
+  npm run build
+    Bundles the app into static files for production.
+
+  npm test
+    Starts the test runner.
+
+  npm run eject
+    Removes this tool and copies build dependencies, configuration files
+    and scripts into the app directory. If you do this, you can’t go back!
+
+We suggest that you begin by typing:
+
+  cd my-app
+  npm start
+
+Happy hacking!
+----

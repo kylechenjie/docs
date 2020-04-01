@@ -1,0 +1,44 @@
+= spring aop =
+kyle <kylechenjie@gmail.com>
+:toc: left
+:icons: font
+:source-highlighter: highlightjs
+:numbered:
+:toclevels: 3
+
+== 相关地址 ==
+
+* https://docs.spring.io/spring/docs/5.1.8.RELEASE/spring-framework-reference/core.html#aop[官网5.1.8.RELEASE文档]
+
+== Spring框架中用AOP来干什么？ ==
+
+* Provide declarative enterprise services. The most important such service is declarative transaction management.
+* Let users implement custom aspects, complementing their use of OOP with AOP.
+
+== AOP 概念 ==
+
+* Aspect
+* Join point
+* Advice
+* Pointcat
+* Introduction
+* Target object
+* AOP proxy
+* Weaving
+
+spring AOP Advice type:
+
+* Before advice
+* After returning advice
+* After throwing advice
+* After (finally) advice
+* Around advice
+
+== AOP Proxies ==
+
+* JDK dynamic proxies
+* CGLIB proxies
+
+== @AspectJ ==
+
+@AspectJ是项目 https://www.eclipse.org/aspectj[AspectJ project] 中的注解。

@@ -1,0 +1,293 @@
+= PostgreSQL =
+kyle <kylechenjie@gmail.com>
+:toc: left
+:icons: font
+:source-highlighter: highlightjs
+:numbered:
+:toclevels: 3
+
+== 安装 ==
+
+=== 源码安装 ===
+
+[source, shell]
+.Short Version
+----
+./configure
+make
+su
+make install
+adduser postgres
+mkdir /usr/local/pgsql/data
+chown postgres /usr/local/pgsql/data
+su - postgres
+/usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data
+/usr/local/pgsql/bin/postgres -D /usr/local/pgsql/data >logfile 2>&1 &
+/usr/local/pgsql/bin/createdb test
+/usr/local/pgsql/bin/psql test
+----
+
+.initdb
+----
+pgsql kyle$ bin/initdb -D /Users/kyle/pgsql/data
+The files belonging to this database system will be owned by user "kyle".
+This user must also own the server process.
+
+The database cluster will be initialized with locales
+  COLLATE:  C
+  CTYPE:    UTF-8
+  MESSAGES: C
+  MONETARY: C
+  NUMERIC:  C
+  TIME:     C
+The default database encoding has accordingly been set to "UTF8".
+initdb: could not find suitable text search configuration for locale "UTF-8"
+The default text search configuration will be set to "simple".
+
+Data page checksums are disabled.
+
+fixing permissions on existing directory /Users/kyle/pgsql/data ... ok
+creating subdirectories ... ok
+selecting default max_connections ... 20
+selecting default shared_buffers ... 400kB
+selecting default timezone ... Asia/Shanghai
+selecting dynamic shared memory implementation ... posix
+creating configuration files ... ok
+running bootstrap script ... 2019-07-25 14:34:17.353 CST [63272] FATAL:  could not create semaphores: No space left on device
+2019-07-25 14:34:17.353 CST [63272] DETAIL:  Failed system call was semget(5432001, 17, 03600).
+2019-07-25 14:34:17.353 CST [63272] HINT:  This error does *not* mean that you have run out of disk space.  It occurs when either the system limit for the maximum number of semaphore sets (SEMMNI), or the system wide maximum number of semaphores (SEMMNS), would be exceeded.  You need to raise the respective kernel parameter.  Alternatively, reduce PostgreSQL's consumption of semaphores by reducing its max_connections parameter.
+	The PostgreSQL documentation contains more information about configuring your system for PostgreSQL.
+child process exited with exit code 1
+initdb: removing contents of data directory "/Users/kyle/pgsql/data"
+----
+
+=== 安装函数调试功能 ===
+
+.pldebugger repo
+----
+git://git.postgresql.org/git/pldebugger.git
+https://git.postgresql.org/git/pldebugger.git
+ssh://git@git.postgresql.org/pldebugger.git
+----
+
+将pldebugger拷贝到postgresql源码的contrib目录下。
+
+执行make和make install即可。
+
+剩下的就是在pgadmin4中的函数上，右键单击set breakpoint即可。
+
+== SQL ==
+
+== INSERT ==
+
+=== ON CONFLICT ===
+可以处理下面两种冲突：
+
+* unique violation（唯一性约束冲突）
+* exclusion constraint violiation（排他约束冲突）
+** 排它约束是约束中定义的操作计算结果为false，则不允许插入
+** 排它约束会自动建立一个索引，且为gist索引
+
+conflict_action指定另一种ON CONFLICT操作，它可以是DO NOTHING，也可以是DO UPDATE子句，指定在发生冲突时要执行的UPDATE操作的确切细节。
+
+ON CONFLICT DO UPDATE中的SET和WHERE子句可以使用表的名称（或别名）访问现有行，
+
+并使用特殊排除表访问建议插入的行。
+
+目标表中任何读取相应排除列的列都需要SELECT权限。
+
+内置表EXCLUDED引用试图插入的值
+
+.在ON CONFLICT DO UPDATE中的SET和WHERE子句如何访问现有行？
+[NOTE]
+====
+* 可以使用表的名称
+* 可以使用表的别名
+====
+
+.在ON CONFLICT DO UPDATE中的SET和WHERE子句如何访问插入的行？
+[NOTE]
+====
+* EXCLUDED
+====
+
+.举例
+[source,sql]
+----
+INSERT INTO distributors (did, dname)
+    VALUES (5, 'Gizmo Transglobal'), (6, 'Associated Computing, Inc')
+    ON CONFLICT (did) DO UPDATE SET dname = EXCLUDED.dname; <1>
+----
+<1> Note that the special excluded table is used to reference values originally proposed for insertion，** EXCLUDED ** 表被用来引用insert时对应列的原始值。
+该例子中，如果表中已经有did=5或did=6的数据时，则dname就会更新成insert操作的值。
+
+=== 递归 ===
+
+.1到100求和
+[source,sql]
+----
+WITH RECURSIVE t(n) AS ( // <1>
+    VALUES (1)
+  UNION ALL
+    SELECT n+1 FROM t WHERE n < 100
+)
+SELECT sum(n) FROM t;
+----
+<1> t为虚拟表
+
+[source,sql]
+----
+WITH RECUSIVE A (id,name,pid) as
+(
+
+)
+----
+. RECURSIVE是PG的关键字不是具体存在的表。
+. 虚拟表的字段要与内层的字段的个数一致。
+
+== function ==
+
+=== trigger function ===
+
+[source,sql]
+----
+CREATE FUNCTION public.a()
+    RETURNS trigger // <1>
+    LANGUAGE 'plpgsql'
+    NOT LEAKPROOF
+AS $BODY$BEGIN
+NULL;
+END;$BODY$;
+
+ALTER FUNCTION public.a()
+    OWNER TO kyle;
+----
+<1> 触发器函数必须返回trigger
+
+==== 特殊变量 ====
+
+* NEW
+* OLD
+* TG_NAME
+* TG_WHEN
+* TG_LEVEL
+* TG_OP
+* TG_RELID
+* TG_RELNAME
+* TG_TABLE_NAME
+* TG_TABLE_SCHEMA
+* TG_NARGS
+* TG_ARGV[]
+
+== 触发器 ==
+
+== 存储过程 ==
+
+=== 声明 ===
+
+在代码块中，所有用到的变量必须在声明部分声明（loop变量除外，例如FOR）
+
+[source, sql]
+.举例
+----
+user_id integer;
+quantity numeric(5);
+url varchar;
+myrow tablename%ROWTYPE;
+myfield tablename.columnname%TYPE;
+arow RECORD;
+----
+
+.语法
+----
+name [ CONSTANT ] type [ COLLATE collation_name ] [ NOT NULL ] [ { DEFAULT | := | = } expression ];
+----
+
+变量的默认值会在每次调用进入代码块的时候分配
+
+.举例
+----
+quantity integer DEFAULT 32;
+url varchar := 'http://mysite.com';
+user_id CONSTANT integer := 10;
+----
+
+
+==== 声明函数参数（Declaring Function Parameters） ====
+
+.函数参数
+[source,sql]
+----
+CREATE FUNCTION sales_tax(subtotal real) RETURNS real AS $$
+BEGIN
+    RETURN subtotal * 0.06;
+END;
+$$ LANGUAGE plpgsql;
+
+----
+
+可以使用$1、$2、...，等引用函数的参数。
+
+例如
+
+[source,sql]
+----
+CREATE FUNCTION instr(varchar, integer) RETURNS integer AS $$
+DECLARE
+    v_string ALIAS FOR $1;
+    index ALIAS FOR $2;
+BEGIN
+    -- some computations using v_string and index here
+END;
+$$ LANGUAGE plpgsql;
+----
+* $0 一般作为返回值使用。$0 is initialized to null and can be modified by the function, so it can be used to hold the return value if desired, though that is not required. $0 can also be given an alias.
+* $1 为函数的第一个参数
+* $2 为函数的第二个参数
+
+
+==== 别名（ALIAS） ====
+
+[source,sql]
+----
+DECLARE
+  prior ALIAS FOR old;
+  updated ALIAS FOR new;
+----
+
+==== Copying Types ====
+
+----
+name table_name%ROWTYPE;
+name composite_type_name;
+----
+
+==== Record Typpes ====
+
+----
+name RECORD;
+----
+
+
+== 管理 ==
+
+=== 数据库管理 ===
+
+==== 查询存在的数据库 ====
+[source,sql]
+----
+SELECT datname FROM pg_database;
+----
+
+==== 创建数据库 ====
+.用SQL创建
+[source,sql]
+----
+CREATE DATABASE name;
+----
+
+.用命令创建
+[source,shell]
+----
+createdb dbname
+----

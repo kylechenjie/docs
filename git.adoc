@@ -1,0 +1,37 @@
+= git =
+kyle <kylechenjie@gmail.com>
+:toc: left
+:icons: font
+:source-highlighter: highlightjs
+:numbered:
+:toclevels: 5
+
+== 指令 ==
+.Git全局设置
+[source,bash]
+--------------------------------------------------------------------------------
+git config --global user.name "xxx"
+git config --global user.email "xxx"
+--------------------------------------------------------------------------------
+
+.创建新版本库
+[source,bash]
+--------------------------------------------------------------------------------
+git clone git@code.aliyun.com:aa/bb.git
+cd bb
+touch README.md
+git add README.md
+git commit -m "add README"
+git push -u origin master
+--------------------------------------------------------------------------------
+
+.已存在的文件夹或 Git 仓库
+[source,bash]
+--------------------------------------------------------------------------------
+cd existing_folder
+git init
+git remote add origin git@code.aliyun.com:aa/bb.git
+git add .
+git commit
+git push -u origin master
+--------------------------------------------------------------------------------

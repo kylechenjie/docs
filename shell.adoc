@@ -1,0 +1,16 @@
+= shell =
+kyle <kylechenjie@gmail.com>
+:toc: left
+:icons: font
+:source-highlighter: highlightjs
+:numbered:
+:toclevels: 5
+
+== 开发 ==
+.判断变量是否未定义
+[source,bash]
+--------------------------------------------------------------------------------
+if [ "x$KAFKA_HEAP_OPTS" = "x" ]; then
+  export KAFKA_HEAP_OPTS="-Xmx1G -Xms1G"
+fi
+--------------------------------------------------------------------------------

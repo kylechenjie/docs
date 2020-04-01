@@ -1,0 +1,98 @@
+= pro.ant.design
+kyle <kylechenjie@gmail.com>
+:toc: left
+:icons: font
+:source-highlighter: highlightjs
+:numbered:
+:toclevels: 3
+
+== 项目准备
+
+=== 安装一个空的项目
+
+[source, shell]
+---------------
+npm create umi
+---------------
+
+[TIP]
+=====
+选择TypeScript还是Javascript？
+
+我也不晓得！
+=====
+
+=== 安装依赖
+[source, shell]
+---------------
+npm install
+---------------
+
+=== 启动
+[source, shell]
+---------------
+npm start
+---------------
+
+=== 浏览器访问
+
+http://localhost:8000
+
+=== 打包
+[source, shell]
+---------------
+npm run build
+---------------
+打包好的文件存放在当前工作目录下的dist目录下。
+
+=== 分析
+
+[source, shell]
+---------------
+npm run analyze
+---------------
+
+analyze 脚本做的事情与 build 的相同，但是他会打开一个页面来展示你的依赖信息。如果需要优化性能和包大小，你需要它。
+
+== 可用的脚本
+
+参考：https://pro.ant.design/docs/available-script-cn
+
+== 部署
+
+=== 路由模式选择
+
+Ant Design Pro 使用的 Umi 支持两种路由方式：`browserHistory` 和 `hashHistory`。
+
+可以在 `config/config.ts` 中进行配置选择用哪个方式：
+
+[source, javascript]
+---------------
+export default {
+  history: 'hash', // 默认是 browser
+};
+---------------
+
+具体请参考：https://pro.ant.design/docs/deploy-cn
+
+强烈推荐使用默认的 `browserHistory`
+
+=== nginx
+
+具体请参考：https://pro.ant.design/docs/deploy-cn
+
+=== spring boot
+
+具体请参考：https://pro.ant.design/docs/deploy-cn
+
+=== express
+
+具体请参考：https://pro.ant.design/docs/deploy-cn
+
+== 相关技术 ==
+
+=== umi ===
+
+官方网站：https://umijs.org/
+
+描述：Pluggable enterprise-level react application framework.

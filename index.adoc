@@ -1,0 +1,136 @@
+= 知识积累 =
+kyle <kylechenjie@gmail.com>
+:toc: left
+:icons: font
+:source-highlighter: highlightjs
+:numbered:
+:toclevels: 3
+
+== 语言 ==
+
+
+== 语言基础 ==
+[cols="^,^,^,^,^"]
+|===
+| c | c++ | java | objectc |
+| javascript | python | shell | |
+|===
+
+== 语言平台 ==
+
+[cols="^,^,^,^,^"]
+|===
+| node.js |  |  |  |
+|  |  |  |  |
+|===
+
+== 开发 ==
+
+=== GNOME ===
+
+=== QT ===
+
+=== UNITY ===
+
+=== java ===
+
+==== spring ====
+[cols="^,^,^,^,^"]
+|===
+| core | <<spring-mvc.adoc#,mvc>> | | |
+| transaction | dao | jdbc | |
+|===
+
+==== apache commons ====
+[cols="^,^,^,^,^"]
+|===
+| lang | codec | io | |
+| | | |
+|===
+
+== 数据库 ==
+[cols="^,^,^,^,^"]
+
+=== 大型数据库 ===
+|===
+| <<mysql.adoc#,MySQL>> | PostgreSQL | Oracle | DB2 |
+|===
+
+=== 内存数据库 ===
+
+== 大数据 ==
+
+[cols="^,^,^,^,^"]
+|===
+| Hadoop |  |  |  |
+|===
+
+== 网络 ==
+
+=== 网络协议 ===
+
+== 操作系统 ==
+
+=== linux ===
+[cols="^,^,^,^,^"]
+|===
+| centos | ubuntu | debian | fedora | opensuse
+|===
+
+=== MacOS ===
+[cols="^"]
+|===
+| mojave
+|===
+
+=== windows ===
+[cols="^,^,^,^,^"]
+|===
+| xp | win7 | win10 | server 2003 | server 2008
+|===
+
+== 服务器 ==
+
+=== WEB服务器 ===
+[cols="^,^,^,^,^"]
+|===
+| nginx | apache | tomcat | IIS |
+|===
+
+=== WEB缓存服务器 ===
+[cols="^,^"]
+|===
+| Apache Traffice Server | Squid
+|===
+
+=== 应用服务器 ===
+[cols="^,^,^,^,^"]
+|===
+| WebSphere Application Server | WebSphere Portal Server | Glassfish | Jboss Application Server |
+|===
+
+=== 数据缓存服务器 ===
+[cols="^,^"]
+|===
+| Memcached | <<redis.adoc#,Redis>>
+|===
+
+=== 队列 ===
+[cols="^,^,^,^,^"]
+|===
+| kafka | activemq | rabbitmq | |
+|===
+
+== 其他 ==
+
+[cols="^,^,^,^,^"]
+|===
+| docker | | | |
+|===
+
+== 平台对接 ==
+
+[cols="^,^,^,^,^"]
+|===
+| 微信公众号 | 支付宝 | | |
+|===

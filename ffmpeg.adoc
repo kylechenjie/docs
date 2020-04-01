@@ -1,0 +1,17 @@
+= ffmpeg =
+
+== 生成ts文件 ==
+[source,text]
+--------------------------------------------------------------------------------
+$ ffmpeg -y \
+ -i sample.mov \
+ -codec copy \
+ -bsf h264_mp4toannexb \
+ -map 0 \
+ -f segment \
+ -segment_time 10 \
+ -segment_format mpegts \
+ -segment_list "/Library/WebServer/Documents/vod/prog_index.m3u8" \
+ -segment_list_type m3u8 \
+ "/Library/WebServer/Documents/vod/fileSequence%d.ts"
+--------------------------------------------------------------------------------

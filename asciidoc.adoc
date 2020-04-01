@@ -1,0 +1,24 @@
+= asciidoc =
+
+== 安装 ==
+
+建议用gem安装，因为版本要高些。
+
+[source, shell]
+--------
+gem install asciidoctor-pdf --pre
+--------
+
+
+中文显示正常需要安装：asciidoctor-pdf-cjk-kai_gen_gothic
+
+[source, shell]
+--------
+gem install asciidoctor-pdf-cjk-kai_gen_gothic
+--------
+
+== 常见问题 ==
+
+[qanda]
+在Atom中预览一直Loading::
+  需要配置Atom，并且关闭掉Use Tree Sitter Parsers
